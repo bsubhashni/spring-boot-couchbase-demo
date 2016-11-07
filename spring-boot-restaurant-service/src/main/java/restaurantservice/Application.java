@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.geo.Box;
 import org.springframework.data.geo.Point;
@@ -27,6 +28,7 @@ public class Application {
 
 @Configuration
 class Config {
+	@Bean
 	public RestaurantService restaurantService() { return new RestaurantService(); }
 }
 

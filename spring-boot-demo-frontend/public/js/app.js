@@ -1,6 +1,6 @@
 var demoApp = angular.module('demoApp', ['mainModule']);
 
-angular.module("mainModule", ["ui.router", "uiGmapgoogle-maps"])
+angular.module("mainModule", ["ui.router", "uiGmapgoogle-maps", "nemLogging"])
     .config(function($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state("search", {

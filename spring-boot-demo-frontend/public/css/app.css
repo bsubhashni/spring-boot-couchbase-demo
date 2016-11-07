@@ -1,9 +1,4 @@
-.mapCanvas {
-    margin: 0 auto;
-    border:gainsboro solid 5px;
-    height: 400px;
-    width: 400px;
-}
+
 
 .angular-google-map-container {
     height: 400px;
