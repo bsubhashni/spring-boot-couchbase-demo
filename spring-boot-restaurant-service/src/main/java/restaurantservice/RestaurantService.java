@@ -9,10 +9,12 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.couchbase.core.CouchbaseTemplate;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.geo.Box;
 import org.springframework.stereotype.Service;
 import restaurantservice.RestaurantRepository;
 
@@ -27,9 +29,14 @@ public class RestaurantService {
 	@Autowired
 	CouchbaseTemplate couchbaseTemplate;
 
-	public List<Restaurant> getRestaurantsByZip(String value) {
-		Sort pageable = new Sort(Sort.Direction.DESC, "inspectionScore");
-		return restaurantRepository.findTop10ByZip(value, pageable);
+
+	public List<Restaurant> getRestaurantsByZip(String value, int lowScore, int highScore) {
+		Sort sort = new Sort(Sort.Direction.DESC, "inspectionScore");
+		return restaurantRepository.findTop10ByZipAndInspectionScoreBetween(value, lowScore, highScore, sort);
+	}
+
+	public List<Restaurant> getRestaurantsByArea(Box boundingBox, int lowScore, int highScore) {
+		return restaurantRepository.findFirst10ByLocationWithinAndInspectionScoreBetween(boundingBox, lowScore, highScore);
 	}
 
 	public void loadRestaurantInspectionInfo() {

@@ -49,40 +49,73 @@ angular.module("mainModule", ["ui.router", "uiGmapgoogle-maps"])
     };
 }).controller("resultsController", function($scope, $http, $state, $stateParams) {
     $scope.searchResultsByZip =  $stateParams["searchResultsByZip"] || {};
-}).controller("mapsController", function ($scope, $http, uiGmapGoogleMapApi) {
+}).controller("mapsController", function ($scope, $http, uiGmapGoogleMapApi, uiGmapIsReady) {
+    $scope.markers = [];
+
+    uiGmapIsReady.promise()
+        .then(function (maps) {
+            $scope.markers = [];
+        });
+
     uiGmapGoogleMapApi.then(function(maps) {
         $scope.lastBounds = {};
+
+        $scope.windowOptions = {
+            show: false
+        };
+
+        $scope.onMarkerClick = function (marker, eventName, model) {
+            $scope.windowOptions.show = !$scope.windowOptions.show;
+            $scope.selectedCoords = model.coords;
+            $scope.info = model.info + '[score:' + model.score + ']';
+        };
+
+        $scope.closeClick = function () {
+            $scope.windowOptions.show = false;
+        };
+
+
         $scope.map = {
             center: {
-                latitude: 7.0933,
-                longitude: 79.9989
+                latitude: 37.773972,
+                longitude: -122.431297
             },
             draggable: true,
             zoom: 15,
             events: {
                 idle: function(map) {
-                    var bounds = {};
-                    bounds["topLeftLat"] = map.getBounds().getNorthEast().lat();
-                    bounds["topLeftLong"] = map.getBounds().getNorthEast().lng();
-                    bounds["bottomRightLat"] = map.getBounds().getSouthWest().lat();
-                    bounds["bottomRightLong"] = map.getBounds().getSouthWest().lng();
-                    $scope.lastBounds = bounds;
+                    $scope.markers = [];
                     $http(
                         {
                             method: "GET",
-                            url: "/api/searchByLocation",
+                            url: "/api/searchByArea",
                             params: {
-                                boundsArr: $scope.lastBounds
+                                "y2": map.getBounds().getNorthEast().lat(),
+                                "x2": map.getBounds().getNorthEast().lng(),
+                                "y1": map.getBounds().getSouthWest().lat(),
+                                "x1": map.getBounds().getSouthWest().lng(),
                             }
                         }
                     ).success(function (response) {
-
+                        response.forEach(function (restaurant) {
+                                $scope.markers.push({
+                                    id: restaurant.business_id,
+                                    coords: {
+                                        latitude: restaurant.latitude,
+                                        longitude: restaurant.longitude
+                                    },
+                                    info: restaurant.name,
+                                    score: restaurant.inspectionScore
+                                });
+                                }
+                           );
                     }).error(function(error) {
                     });
 
                 }
             }
         };
+
 
         // map options
         $scope.options = {
@@ -94,18 +127,5 @@ angular.module("mainModule", ["ui.router", "uiGmapgoogle-maps"])
         };
     });
 
-    // map marker
-    $scope.marker = {
-        id: 0,
-        coords: {
-            latitude:  7.0933,
-            longitude: 79.9989
-        },
-        options: {
-            draggable: false,
-            title: 'The KVK Blog',
-            animation: 1 // 1: BOUNCE, 2: DROP
-        }
-    };
 });
 

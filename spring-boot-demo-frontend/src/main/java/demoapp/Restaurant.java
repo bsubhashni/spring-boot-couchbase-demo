@@ -1,5 +1,8 @@
 package demoapp;
 
+
+import java.awt.*;
+
 /**
  * Created by subhashni on 11/6/16.
  */
@@ -10,8 +13,8 @@ public class Restaurant {
 	public String city;
 	public String state;
 	public String zip;
-	public String latitude;
-	public String longitude;
+	public float latitude;
+	public float longitude;
 	public int inspectionScore;
 	public int date;
 }

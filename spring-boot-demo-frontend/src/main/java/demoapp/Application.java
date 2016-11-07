@@ -1,9 +1,6 @@
 package demoapp;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,9 +60,14 @@ class Controller {
 		return responseEntity.getBody();
 	}
 
-	@RequestMapping(value = "/searchByLocation", method = RequestMethod.GET)
-	public List<Restaurant> searchByLocation(@RequestParam String zip) {
-		List<Restaurant> restaurants = new ArrayList<>();
-		return restaurants;
+	@RequestMapping(value = "/searchByArea", method = RequestMethod.GET)
+	public List<Restaurant> searchByArea(@RequestParam Double x1, @RequestParam Double y1,
+										 @RequestParam Double x2, @RequestParam Double y2) {
+		URI uri = discoveryClient.getInstances(restaurantService).get(0).getUri();
+		ResponseEntity<List<Restaurant>> responseEntity =
+				restTemplate.exchange(uri + "/searchByArea?x1={x1}&y1={y1}&x2={x2}&y2={y2}",
+						HttpMethod.GET, null, new ParameterizedTypeReference<List<Restaurant>>() {
+						}, x1, y1, x2, y2);
+		return responseEntity.getBody();
 	}
 }
