@@ -1,0 +1,16 @@
+<button class="btn btn-primary" ui-sref="search">Back to search</button>
+<div class="mapCanvas">
+
+    <ui-gmap-google-map
+            center='map.center'
+            zoom='map.zoom'
+            events="map.events"
+            draggable="map.draggable"
+            options="options">
+        <ui-gmap-marker
+                coords="marker.coords"
+                options="marker.options"
+                idkey="marker.id">
+        </ui-gmap-marker>
+    </ui-gmap-google-map>
+</div>

@@ -1,0 +1,21 @@
+<div ng-controller="resultsController">
+<button class="btn btn-primary" ui-sref="search">Back to search</button>
+<div class="row">
+    <div class="col-md-6">
+            <table class="table table-striped" >
+            <thead>
+                <th>Restaurants</th>
+                <th>Address</th>
+                <th>Score</th>
+            </thead>
+                <tbody >
+                   <tr ng-repeat="(key, value) in searchResultsByZip">
+                        <td>{{value.name}}</td>
+                        <td>{{value.address}},{{value.city}}</td>
+                        <td>{{value.inspectionScore}}</td>
+                    <tr/>
+                </tbody>
+            </table>
+    </div>
+</div>
+</div>

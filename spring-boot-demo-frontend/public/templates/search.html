@@ -1,0 +1,35 @@
+<div ng-controller="mainController">
+<h3>SF Dine Out - Suggestions based on health inspection scores</h3>
+</div>
+<br/>
+
+<div class="container-fluid" >
+<table>
+    <tr>
+        <td class="col-lg-6">
+            <br/>
+            <br/>
+            <form>
+            <div class="form-group">
+                <input type="text" class="form-control" id="zip" maxlength="5" minlength="5" size="5" placeholder="Search by zip" ng-model="inputForm.zip">
+            </div><button type="button" class="btn btn-primary" ng-click="searchByZip(inputForm.zip)">Search</button>
+
+            </form>
+        </td>
+        <td align="left">
+            <div class="col-xs-4 container-fluid">
+                <h4>Or</h4>
+            </div>
+        </td>
+        <td align="left">
+            <div class="col-xs-4 container-fluid">
+                <button type="button" class="btn btn-primary" ng-click="searchByMaps()">Search Using Map</button>
+            </div>
+        </td>
+        </tr>
+    <tr>
+        <td>
+        </td>
+    </tr>
+</table>
+</div>
