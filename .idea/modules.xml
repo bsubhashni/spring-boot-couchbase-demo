@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/spring-boot-couchbase-demo.iml" filepath="$PROJECT_DIR$/.idea/spring-boot-couchbase-demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/spring-boot-couchbase-friend-suggestion/spring-boot-couchbase-friend-suggestion.iml" filepath="$PROJECT_DIR$/spring-boot-couchbase-friend-suggestion/spring-boot-couchbase-friend-suggestion.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-frontend/spring-boot-demo-frontend.iml" filepath="$PROJECT_DIR$/spring-boot-demo-frontend/spring-boot-demo-frontend.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-boot-eureka-service/spring-boot-eureka-service.iml" filepath="$PROJECT_DIR$/spring-boot-eureka-service/spring-boot-eureka-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-boot-restaurant-service/spring-boot-restaurant-service.iml" filepath="$PROJECT_DIR$/spring-boot-restaurant-service/spring-boot-restaurant-service.iml" />

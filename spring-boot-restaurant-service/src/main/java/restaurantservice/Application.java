@@ -2,10 +2,13 @@ package restaurantservice;
 
 import java.util.List;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,11 +17,13 @@ import org.springframework.data.geo.Point;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+
 /**
  * Created by subhashni on 11/5/16.
  */
-@SpringBootApplication
 @EnableDiscoveryClient
+@EnableCircuitBreaker
+@SpringBootApplication
 public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -44,11 +49,9 @@ class Controller {
 	@Value("${highScore}")
 	int highScore;
 
-
 	@RequestMapping("/load")
 	public void load() {
-		restaurantService.loadRestaurantInfo();
-		restaurantService.loadInpectionInfo();
+		restaurantService.loadRestaurantInspectionInfo();
 	}
 
 	@RequestMapping(value = "/searchByZip", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
@@ -66,6 +69,4 @@ class Controller {
 		Box boundingBox = new Box(point1, point2);
 		return restaurantService.getRestaurantsByArea(boundingBox, lowScore, highScore);
 	}
-
-
 }

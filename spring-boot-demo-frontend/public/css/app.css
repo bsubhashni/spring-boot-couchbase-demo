@@ -1,6 +1,8 @@
 
 
 .angular-google-map-container {
-    height: 400px;
-    width: 400px;
+    height: 500px;
+    width: 800px;
+    margin-right: auto;
+    margin-left: auto;
 }

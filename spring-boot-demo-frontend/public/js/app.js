@@ -36,14 +36,17 @@ angular.module("mainModule", ["ui.router", "uiGmapgoogle-maps", "nemLogging"])
                 }
             }
         ).success(function (response) {
-            $state.go('results', {'searchResultsByZip' : response});
-
+            if(response.length == 0) {
+                alert("No results found");
+            } else {
+                $state.go('results', {'searchResultsByZip': response});
+            }
         }).error(function(error) {
-                console.log(JSON.stringify(error));
+            alert("No results found");
+            console.log(JSON.stringify(error));
         });
 
     };
-
     $scope.searchByMaps = function () {
         $state.go('maps');
     };
@@ -110,6 +113,7 @@ angular.module("mainModule", ["ui.router", "uiGmapgoogle-maps", "nemLogging"])
                                 }
                            );
                     }).error(function(error) {
+                        alert("No results found");
                     });
 
                 }

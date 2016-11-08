@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -30,15 +32,24 @@ public class RestaurantService {
 	CouchbaseTemplate couchbaseTemplate;
 
 
+	@HystrixCommand(fallbackMethod = "failFast", commandProperties = {
+			@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "1")
+	})
 	public List<Restaurant> getRestaurantsByZip(String value, int lowScore, int highScore) {
 		Sort sort = new Sort(Sort.Direction.DESC, "inspectionScore");
 		return restaurantRepository.findTop10ByZipAndInspectionScoreBetween(value, lowScore, highScore, sort);
+	}
+
+	public List<Restaurant> failFast(String value, int lowScore, int highScore) {
+		return null;
 	}
 
 	public List<Restaurant> getRestaurantsByArea(Box boundingBox, int lowScore, int highScore) {
 		return restaurantRepository.findFirst10ByLocationWithinAndInspectionScoreBetween(boundingBox, lowScore, highScore);
 	}
 
+
+	/** Load restaurant & inspection info */
 	public void loadRestaurantInspectionInfo() {
 		loadRestaurantInfo();
 		loadInpectionInfo();

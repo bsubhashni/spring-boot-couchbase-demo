@@ -1,17 +1,12 @@
 package restaurantservice;
 
-import com.couchbase.client.core.annotations.InterfaceAudience;
-import com.couchbase.client.deps.com.fasterxml.jackson.databind.annotation.JsonAppend;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
-import org.springframework.data.geo.Point;
 
 /**
  * Created by subhashni on 11/6/16.
  */
-
 @Document
 class Restaurant {
 	@Id
@@ -28,5 +23,4 @@ class Restaurant {
 	public int inspectionScore;
 	public String location;
 	public int date;
-
 }
